@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[!] Me-Encine</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            overflow-x: hidden;
+            position: relative;
+        }
+        /* Estilos para a tela de login */
+        #login {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f1f1f1;
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            transition: opacity 0.3s ease;
+        }
+        #login.hidden {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        #login-form {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 300px;
+        }
+        #login-form input {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #login-form input.error {
+            background-color: #ffdddd;
+        }
+        #login-form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        /* Estilos para o menu e conteúdo */
+        #sidebar {
+            width: 100px;
+            background: #f1f1f1;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, width 0.3s ease;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            z-index: 100;
+        }
+        #sidebar.hidden {
+            transform: translateX(-100px);
+            width: 0;
+            padding: 0;
+        }
+        #content {
+            flex: 1;
+            padding: 20px;
+            transition: margin-left 0.3s ease;
+            margin-left: 100px; /* Espaço reservado para o menu */
+            position: relative;
+        }
+        #content.full-width {
+            margin-left: 0;
+        }
+        #toggle-sidebar {
+            background: none;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            position: fixed;
+            top: 20px;
+            left: 120px; /* Espaço reservado para o menu */
+            z-index: 200;
+            transition: opacity 0.3s ease, left 0.3s ease;
+        }
+        #toggle-sidebar.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        #search-container {
+            width: 40%;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            box-sizing: border-box;
+        }
+        #search-bar {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #search-icon {
+            margin-left: -30px;
+            cursor: pointer;
+        }
+        #video-panel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: flex-start;
+        }
+        .video {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            flex: 1 1 calc(33.333% - 20px);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            max-width: 300px; /* Ajusta a largura máxima do painel de vídeo */
+            margin: auto;
+        }
+        .video img {
+            width: 100%; /* Mantém a largura da imagem para preencher o painel sem esticar */
+            height: auto; /* Mantém a proporção da imagem */
+            border-radius: 5px;
+        }
+        .video-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .video-description {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="login">
+        <div id="login-form">
+            <input type="text" id="username" placeholder="Usuário">
+            <input type="password" id="password" placeholder="Senha">
+            <button id="login-button">Entrar</button>
+        </div>
+    </div>
+    <div id="sidebar" class="hidden">
+        <h2>Menu</h2>
+        <ul>
+            <li>Início</li>
+        </ul>
+    </div>
+    <button id="toggle-sidebar" class="hidden"><img src="toggle-icon.png" alt="Toggle Menu"></button>
+    <div id="content" class="hidden">
+        <div id="search-container">
+            <input type="text" id="search-bar" placeholder="Pesquisar...">
+            <img src="search-icon.png" id="search-icon" alt="Search">
+        </div>
+        <div id="video-panel">
+            <div class="video" data-title="Como aprender HTML">
+                <img src="video-thumbnail.png" alt="Thumbnail">
+                <div class="video-title">Como aprender HTML</div>
+                <div class="video-description">Um guia completo sobre como aprender HTML.</div>
+            </div>
+            <div class="video" data-title="CSS para iniciantes">
+                <img src="video-thumbnail.png" alt="Thumbnail">
+                <div class="video-title">CSS para iniciantes</div>
+                <div class="video-description">Introdução ao CSS para iniciantes.</div>
+            </div>
+            <div class="video" data-title="JavaScript básico">
+                <img src="video-thumbnail.png" alt="Thumbnail">
+                <div class="video-title">JavaScript básico</div>
+                <div class="video-description">Aprenda o básico de JavaScript.</div>
+            </div>
+            <!-- Adicione mais vídeos conforme necessário -->
+        </div>
+    </div>
+    <script>
+        document.getElementById('login-button').addEventListener('click', function() {
+            const username = document.getElementById('username');
+            const password = document.getElementById('password');
+            if (username.value === 'lucasrw' && password.value === 'bonito123') {
+                document.getElementById('login').classList.add('hidden');
+                document.getElementById('content').classList.remove('hidden');
+                document.getElementById('sidebar').classList.remove('hidden');
+                document.getElementById('toggle-sidebar').classList.remove('hidden');
+            } else {
+                if (username.value !== 'lucasrw') {
+                    username.classList.add('error');
+                }
+                if (password.value !== 'bonito123') {
+                    password.classList.add('error');
+                }
+                setTimeout(() => {
+                    username.classList.remove('error');
+                    password.classList.remove('error');
+                }, 3000);
+            }
+        });
+
+        document.getElementById('toggle-sidebar').addEventListener('click', function() {
+            const sidebar = document.getElementById('sidebar');
+            const toggleButton = document.getElementById('toggle-sidebar');
+            sidebar.classList.toggle('hidden');
+            const content = document.getElementById('content');
+            if (sidebar.classList.contains('hidden')) {
+                content.classList.add('full-width');
+                toggleButton.style.left = '20px'; // Reposiciona o botão quando o menu está escondido
+            } else {
+                content.classList.remove('full-width');
+                toggleButton.style.left = '120px'; // Reposiciona o botão quando o menu está visível
+            }
+        });
+
+        document.getElementById('search-bar').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const videos = document.querySelectorAll('.video');
+            
+            videos.forEach(video => {
+                const title = video.getAttribute('data-title').toLowerCase();
+                if (title.includes(searchTerm)) {
+                    video.style.display = 'flex';
+                } else {
+                    video.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
